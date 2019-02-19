@@ -7,11 +7,11 @@ import (
 	"log"
 )
 
-func GetDiskInfo() DiskInfo {
+func GetDiskInfo(partition string) DiskInfo {
 	var di DiskInfo
 
 	fs := syscall.Statfs_t{}
-	err := syscall.Statfs("/", &fs)
+	err := syscall.Statfs(partition, &fs)
 	if err != nil {
 		log.Panic(err)
 	}
@@ -23,17 +23,17 @@ func GetDiskInfo() DiskInfo {
 	return di
 }
 
-func GetTotalBytes() uint64 {
-	di := GetDiskInfo()
+func GetTotalBytes(partition string) uint64 {
+	di := GetDiskInfo(partition)
 	return di.Free
 }
 
-func GetUsedBytes() uint64 {
-	di := GetDiskInfo()
+func GetUsedBytes(partition string) uint64 {
+	di := GetDiskInfo(partition)
 	return di.Used
 }
 
-func GetFreeBytes() uint64 {
-	di := GetDiskInfo()
+func GetFreeBytes(partition string) uint64 {
+	di := GetDiskInfo(partition)
 	return di.Free
 }

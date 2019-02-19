@@ -8,7 +8,7 @@ import (
 	"unsafe"
 )
 
-func GetDiskInfo() DiskInfo {
+func GetDiskInfo(partition string) DiskInfo {
 	var di DiskInfo
 
 	kernel32, err := syscall.LoadLibrary("Kernel32.dll")
@@ -25,7 +25,7 @@ func GetDiskInfo() DiskInfo {
 
 	var lpFreeBytesAvailable, lpTotalNumberOfBytes, lpTotalNumberOfFreeBytes int64
 	_, _, _ = syscall.Syscall6(uintptr(GetDiskFreeSpaceEx), 4, 
-		uintptr(unsafe.Pointer(syscall.StringToUTF16Ptr("D:"))),
+		uintptr(unsafe.Pointer(syscall.StringToUTF16Ptr(partition))),
 		uintptr(unsafe.Pointer(&lpFreeBytesAvailable)),
 		uintptr(unsafe.Pointer(&lpTotalNumberOfBytes)),
 		uintptr(unsafe.Pointer(&lpTotalNumberOfFreeBytes)), 0, 0)
@@ -37,17 +37,17 @@ func GetDiskInfo() DiskInfo {
 	return di
 }
 
-func GetTotalBytes() uint64 {
-	di := GetDiskInfo()
+func GetTotalBytes(partition string) uint64 {
+	di := GetDiskInfo(partition)
 	return di.Total
 }
 
-func GetUsedBytes() uint64 {
-	di := GetDiskInfo()
+func GetUsedBytes(partition string) uint64 {
+	di := GetDiskInfo(partition)
 	return di.Used
 }
 
-func GetFreeBytes() uint64 {
-	di := GetDiskInfo()
+func GetFreeBytes(partition string) uint64 {
+	di := GetDiskInfo(partition)
 	return di.Free
 }
