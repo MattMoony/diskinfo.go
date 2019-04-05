@@ -3,8 +3,8 @@
 package diskinfo
 
 import (
-	"syscall"
 	"log"
+	"syscall"
 )
 
 func GetDiskInfo(partition string) DiskInfo {

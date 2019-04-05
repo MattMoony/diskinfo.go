@@ -3,8 +3,8 @@
 package diskinfo
 
 import (
-	"syscall"
 	"log"
+	"syscall"
 	"unsafe"
 )
 
@@ -24,7 +24,7 @@ func GetDiskInfo(partition string) DiskInfo {
 	}
 
 	var lpFreeBytesAvailable, lpTotalNumberOfBytes, lpTotalNumberOfFreeBytes int64
-	_, _, _ = syscall.Syscall6(uintptr(GetDiskFreeSpaceEx), 4, 
+	_, _, _ = syscall.Syscall6(uintptr(GetDiskFreeSpaceEx), 4,
 		uintptr(unsafe.Pointer(syscall.StringToUTF16Ptr(partition))),
 		uintptr(unsafe.Pointer(&lpFreeBytesAvailable)),
 		uintptr(unsafe.Pointer(&lpTotalNumberOfBytes)),
